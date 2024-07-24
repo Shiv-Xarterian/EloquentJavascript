@@ -1,0 +1,39 @@
+Numbers -> 1 2 3 4 5 6
+Js store upto 64bits so there will be a maximum of 2^64 numbers to be store
+
+Arithmetic -> + - * /  other operations with Numbers
+
+Three Special Numbers = Infinity, -Infinity, NaN(Not a Number)
+
+String -> combinations of characters like 'a' , '*' etc.
+Can put anything between quotes to make it a char and then store in String
+
+\ -> Help to move to the NextLine
+
+string A + string B = string C (only for + operator)
+
+"Abc" + "Def" = "AbcDef"
+
+`Hi my name is ${name}` -> Strings quoted in `` will be of special type like ${something}, something will be calculating first and then converted into string and then put in the main string
+
+Boolean operator -> true and false
+
+Logical Operator -> || or && etc.
+
+Empty values -> null or undefined -> absence of a meaningful values
+
+Automatic type Conversion -> 
+console.log(8 * null)
+// → 0
+console.log("5" - 1)
+// → 4
+console.log("5" + 1)
+// → 51
+console.log("five" * 2)
+// → NaN
+console.log(false == 0)
+// → true
+
+The ?? operator resembles || but returns the value on the right only if the one on the left is null or undefined, not if it is some other value that can be converted to false
+-> Check Validity not True/false
+

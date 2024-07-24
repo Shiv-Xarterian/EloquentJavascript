@@ -1,0 +1,29 @@
+function bind to objects means when function is called as method on a objects
+to access properties of object , 'this' keyword used
+
+if u want to call a function while sending a custom object for its lexical scope
+-> 
+    speak.call(object,parameters);
+
+-> Arrow functions do not correspond with a own 'this'
+
+Prototypes
+You can use Object.create to create an object with a specific prototype.
+
+Classes -> A class defines the shape of a type of object—what methods and properties it has. Such an object is called an instance of the class.
+
+class Rabbit {
+  constructor(type) {
+    this.type = type;
+  }
+  speak(line) {
+    console.log(`The ${this.type} rabbit says '${line}'`);
+  }
+}
+
+Getters, Setter, Statics
+
+Even properties that are accessed directly may hide a method call. Such methods are called getters
+ You can do a similar thing when a property is written to, using a setter.
+
+ instanceof -> to check whether the object derived from a class

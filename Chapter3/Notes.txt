@@ -1,0 +1,66 @@
+Functions->
+    A function is a block of code designed to perform a specific task
+-> Have 0 or finite parameters
+-> sometimes return a value and sometimes not
+-> Ex->
+const square = function(x) {
+  return x * x;
+};
+
+console.log(square(12));
+// → 144
+
+Bindings and scopes->
+    let x = 10;   // global
+    if (true) {
+        let y = 20; // local to block
+        var z = 30; // also global
+    }
+
+let -> Block scopes
+var -> Function scope
+const -> Block scope
+
+Functions as values->
+    let launchMissiles = function() {
+        missileSystem.launch("now");
+    };
+        if (safeMode) {
+        launchMissiles = function() {/* do nothing */};
+    }
+-> Can store Functions into a Binding -> Means a value-> Can Pass into a another function as well return by a function
+
+
+-> Declaration-> 
+    1. function Xarterian(){
+        Have this keyword
+    }
+    2. let Xarterian = () => {
+        -> Arrow Function
+        doesnot have this keyword
+
+        const square2 = x => x * x; // more shorter way of arrow Function-> When there is only 1 argument and 1 line return statement
+            so no need for writing return but if { is used } then have to write return
+    }
+
+The CallStack-> 
+    When the JS engine gets a function call then first it will execute the function and then the execution jump to next line
+    Calling a function store in stack memory Means if More recursion then more stack memory 
+        which eventually fill the stack memory
+
+if ( A function when called, calls B function and B function when called Calls again A function this creates a Infinite Loop hence cause an error -> Stack Overflow)
+
+Closure->
+    The ability of a function to be combined with its lexical scope
+    function solve(){
+        let x = 10;
+        return function(){
+            console.log(x);
+        }
+    }
+
+    var fn = solve();
+    fn will also have idea the x even the solve is executed and memory is freed
+
+recursion-> Calling a function inside itself until a base condition is not reached;
+

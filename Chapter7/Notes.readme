@@ -1,0 +1,219 @@
+Robot Game
+const roads = [
+  "Alice's House-Bob's House",   "Alice's House-Cabin",
+  "Alice's House-Post Office",   "Bob's House-Town Hall",
+  "Daria's House-Ernie's House", "Daria's House-Town Hall",
+  "Ernie's House-Grete's House", "Grete's House-Farm",
+  "Grete's House-Shop",          "Marketplace-Farm",
+  "Marketplace-Post Office",     "Marketplace-Shop",
+  "Marketplace-Town Hall",       "Shop-Town Hall"
+];
+
+Graph
+a->b 
+b->c
+c->D
+
+function buildGraph(edges) {
+  let graph = Object.create(null);
+  #starting with empty graph
+  function addEdge(from, to) {
+    if (from in graph) {
+      graph[from].push(to);
+    } else {
+      graph[from] = [to];
+    }
+  }
+  # to add nodes in the graph -> if present then add it else create a key value pair
+  for (let [from, to] of edges.map(r => r.split("-"))) {
+    # every item = a-b so make it like [from,to] -> [a,b];
+    addEdge(from, to);
+    addEdge(to, from);
+    #bidirectional graph
+  }
+  return graph;
+}
+
+const roadGraph = buildGraph(roads);
+
+
+#instead making classes of all things like products and robot etc
+#just make virtual world
+
+class VillageState {
+    #represent current state in the village means single place of the village
+  constructor(place, parcels) {
+    this.place = place;
+    this.parcels = parcels;
+  }
+
+  move(destination) {
+    #moving to a destination
+    if (!roadGraph[this.place].includes(destination)) {
+        # no furthur roads from current place to destination then return same means END
+      return this;
+    } else {
+        # create new parcel array 
+        # if parcel recive or p.place is not our current place means that product can't be picked so product remain same
+      let parcels = this.parcels.map(p => {
+        if (p.place != this.place) return p;
+        #else pick the place changes its place to destination while moving until p.address != p.place if yes that means orderd is delivered 
+        return {place: destination, address: p.address};
+      }).filter(p => p.place != p.address);
+      return new VillageState(destination, parcels); #moving from a->b represent to take order from A and also deliver the products for place A
+    }
+  }
+}
+
+#parcels does not updated else they are recreated
+
+#issue / aim -> How to decide destination   
+
+#Current we have -> state (where the robot is) , memory(robot memory), robot
+
+#Robot check everyturn and cehck if he have parcels for this direction -> DO action for this turn/dir
+
+function runRobot(state, robot, memory) {
+  for (let turn = 0;; turn++) {
+    #all possible turns
+    if (state.parcels.length == 0) {
+        #turn represent like 1st turn , 2nd turn
+        #Now if parcels reach 0 we break 
+      console.log(`Done in ${turn} turns`);
+      break;
+    }
+    let action = robot(state, memory);
+    # What the robot does
+    state = state.move(action.direction);
+    # move in the direction
+    memory = action.memory;
+    #update memory
+    console.log(`Moved to ${action.direction}`);
+  }
+}
+
+#How to choose action
+
+#1. TO choose random direction -> And hope that robot move in all direction and deliver all parcel
+
+function randomPick(array) {
+  let choice = Math.floor(Math.random() * array.length);
+  #random choose between 0<=r<1 so *array.length gave us the random index
+  return array[choice];
+}
+
+function randomRobot(state) {
+  return {direction: randomPick(roadGraph[state.place])};
+  #current state/place , to go to any random destination which connect current place
+}
+#No need of memory state now, as everything is random now
+
+#To start the work -> need to make some state for the robot
+
+VillageState.random = function(parcelCount = 5) {
+    #parcelcount means how many parcels
+  let parcels = [];
+  #initialize empty array for parcels
+  for (let i = 0; i < parcelCount; i++) {
+    let address = randomPick(Object.keys(roadGraph));
+    #pick a random addresss
+    let place;
+    do {
+      place = randomPick(Object.keys(roadGraph));
+      #pick a random place
+      #if get place != random that means there is a parcel to be deliver form a -> b
+    } while (place == address);
+    #when recieve differnet 1 parcel create else again try to create a new parcel
+    parcels.push({place, address});
+  }
+  #This function is only to create parcels to deliver
+  return new VillageState("Post Office", parcels);
+};
+
+#Lets start the VIrtual World
+
+runRobot(VillageState.random(), randomRobot);
+#provide state-> villagestate.random()
+#randomRobot -> A random Robot To deliver the parcel
+// → Moved to Marketplace
+// → Moved to Town Hall
+// → …
+// → Done in 63 turns
+
+#Takes a lot of turns bcz their is no planing at all
+
+#Good Method->
+
+# The mail truck’s route ->
+
+#Find a route that moves from the village so the robot can move 2 times and deliver all products
+const mailRoute = [
+  "Alice's House", "Cabin", "Alice's House", "Bob's House",
+  "Town Hall", "Daria's House", "Ernie's House",
+  "Grete's House", "Shop", "Grete's House", "Farm",
+  "Marketplace", "Post Office"
+];
+
+#Function to move the robot 
+
+function routeRobot(state, memory) {
+  if (memory.length == 0) {
+    #make the memory update;
+    memory = mailRoute;
+  }
+  #direction -> set and memory get reduced
+  return {direction: memory[0], memory: memory.slice(1)};
+}
+
+#Can Optimise it more by taking example with real life exampels
+
+---> #Pathfinding
+
+#Finding the shortest Route
+#Why not grow Path from source to every other end
+
+function findRoute(graph, from, to) {
+  let work = [{at: from, route: []}];
+  #work or say path
+  #like a queue , start from current location
+  for (let i = 0; i < work.length; i++) {
+    let {at, route} = work[i];
+    #get the top node in work like in queue
+    for (let place of graph[at]) {
+        #trying every place from this place where we can reach
+      if (place == to) return route.concat(place); #if we match direct path-> add to route
+      if (!work.some(w => w.at == place)) {
+        #add this node in the queue/work means place is not present in the queue so that single iteration is there just like an visited
+        work.push({at: place, route: route.concat(place)});
+      }
+    }
+  }
+}
+
+# The work -> ARRAY that store each place that gets visited becasue it get visited with shorteest path
+
+#Our code doesn’t handle the situation where there are no more work items on the work list because we know that our graph is connected,
+#  meaning that every location can be reached from all other locations. 
+# We’ll always be able to find a route between two points, and the search can’t fail.
+
+function goalOrientedRobot({place, parcels}, route) {
+  if (route.length == 0) {
+    #given route for the parcels
+    let parcel = parcels[0];
+    if (parcel.place != place) {
+        #means the current place is not place where we get pick it
+      route = findRoute(roadGraph, place, parcel.place);
+      #find a route from currnode -> parcel pickup 
+    } else {
+      route = findRoute(roadGraph, place, parcel.address);
+      #if we pickup the parcel then find route for its address
+    }
+  }
+  return {direction: route[0], memory: route.slice(1)};
+  # we get direction for the robot and memory like path it follow and then  route.slice that 1 node is traversed
+}
+
+#This robot uses its memory value as a list of directions to move in, just like the route-following robot
+
+#When ever the list of direction get empty the robot will find the first undelivered parcel and find its route and try to deliver it
+

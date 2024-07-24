@@ -1,0 +1,22 @@
+Statement -> Any expression with a semicolon in it
+1;
+!false;
+
+Binding-> To assign some value to a Keyword
+let x = 10;
+(let,var,const -> define that x is going to define a binding);
+
+Function-> A function is a piece of program wrapped in a value. Such values can be applied in order to run the wrapped program.
+
+The console.log function ->  To print in the console
+
+Control Flow-> Every Program executes Line by Line
+
+Conditional Execution -> a->b
+                        a->c means based on some Conditional
+
+Loops -> Forloop, while loop , do while Loops
+
+
+
+

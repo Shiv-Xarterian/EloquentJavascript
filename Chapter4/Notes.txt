@@ -1,0 +1,102 @@
+Array->  Data structure to store elements in contiguos manner
+let arr = [1,2,3,4,5];
+can access each element like arr[x] -> x is the position from starting
+
+Properties->
+    A property is a characteristic or attribute that belongs to an object.
+
+arr.length -> length -> property of the array -> arr
+gives the number of total element in the array
+
+Methods-> To make any Change in the array or extract something from the Array
+
+
+objects-> An array is used to store simple data then come Obejct which used to store Complex data
+
+inbuilt Methods for Object-> delete obj.prop -> delete a property named prop.
+Object.keys() -> return an array of Object keys
+
+Object.assign -> To copy properties from one object to another
+
+let object1 = {value: 10};
+let object2 = object1; ----- statement 1
+let object3 = {value: 10};
+
+console.log(object1 == object2);
+// → true
+console.log(object1 == object3);
+// → false
+
+object1.value = 15;
+console.log(object2.value);
+// → 15
+console.log(object3.value);
+// → 10
+
+objects bind together -> change in one lead to another created like statement 1
+
+const score = {visitors: 0, home: 0};
+// This is okay
+score.visitors = 1;
+// This isn't allowed
+score = {visitors: 1, home: 1};
+
+How const work here?????
+
+Array Loops -> 
+for(let i=0; i<arr.length; i++){
+
+}
+
+for (let entry of JOURNAL) {
+  console.log(`${entry.events.length} events.`);
+}
+another example -----
+
+
+shift and unshift -> in array   
+    arr.shift()-> remove first element of arr
+    arr.unshift(x)-> Put x at first
+
+slice-> 
+function remove(array, index) {
+  return array.slice(0, index)
+    .concat(array.slice(index + 1));                    slice takes first index and the last index
+}
+console.log(remove(["a", "b", "c", "d", "e"], 2));
+// → ["a", "b", "d", "e"]
+
+indexof-> find the first index of the given target
+
+
+You can split a string on every occurrence of another string with split and join it again with join:
+
+let sentence = "Secretarybirds specialize in stomping";
+let words = sentence.split(" ");
+console.log(words);
+// → ["Secretarybirds", "specialize", "in", "stomping"]
+console.log(words.join(". "));
+// → Secretarybirds. specialize. in. stomping
+
+Rest Operator->
+    Basically if u want to recieve a large number of inputs then ucan write as ...arguments and then it become an array of arguments    
+        remember not to put any more argument after it
+
+another example max(...numbers);
+
+
+Math Object-> 
+For doign mathematically operations like min or max or PI or random
+
+
+let say we have an Obj object
+we are not sure that this Obj contains a property called xyz
+
+we can write Obj.xyz? means if it is present then do this
+
+
+JSON
+The full form of JSON is JavaScript Object Notation. 
+
+Every property should be in ""
+

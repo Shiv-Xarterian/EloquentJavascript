@@ -1,0 +1,21 @@
+Higher Order Functions->
+    Functions that operate on other functions, either by taking them as arguments or by returning them, are called higher-order functions.
+
+Filter vs Map vs Reduce
+
+
+Filter -> Creates a new array with all elements that pass a test implemented by the provided function.
+returns a new array with element passing the condition
+
+Map->  Creates a new array with some modification to all the old elements in the array
+
+Reduce-> Creates a single value means iterate over all elements combine all element in one element based on some logic
+array.reduce((accumulator, currentValue, currentIndex, array) => {
+  // reducer logic
+}, initialValue);
+
+accumulator: The accumulator accumulates the callback's return values. It is the accumulated value previously returned in the last invocation of the callback, or the initial value if supplied.
+currentValue: The current element being processed in the array.
+currentIndex: The index of the current element being processed in the array (optional).
+array: The array reduce was called upon (optional).
+
