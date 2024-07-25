@@ -1,0 +1,40 @@
+Flaws in computer programs are usually called bugs.
+
+JavaScript can be made a little stricter by enabling strict mode. This can done by putting the string "use strict" at the top of a file or a function body.
+
+function canYouSpotTheProblem() {
+  "use strict";
+  for (counter = 0; counter < 10; counter++) {
+    console.log("Happy happy");
+  }
+}
+
+canYouSpotTheProblem();
+// → ReferenceError: counter is not defined
+
+Writing tests is a bit more work than testing manually,
+
+Debugging by console.log or Debugger
+
+Exceptions
+
+
+try-> Trying our algorithm or program adn put breakpoints for catching unwanted errors
+catch -> Stop execution when cany catch occur then programmer figure out error
+
+function transfer(from, amount) {
+  if (accounts[from] < amount) return;
+  let progress = 0;
+  try {
+    accounts[from] -= amount;
+    progress = 1;
+    accounts[getAccount()] += amount;
+    progress = 2;
+  } finally {
+    if (progress == 1) {
+      accounts[from] += amount;
+    }
+  }
+}
+
+finally always occure after try oe catch

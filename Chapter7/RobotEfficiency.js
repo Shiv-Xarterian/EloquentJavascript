@@ -93,16 +93,29 @@ const findRoute = (graph, from, to) => {
   }
 };
 
+const mergeparcels = (flag, state) => {
+  const mergedparcels = {};
+  for (let parcel of state.parcels) {
+    if (flag) {
+      if (parcel.place in mergedparcels) {
+        mergedparcels[parcel.place] += 1;
+      } else mergedparcels[parcel.place] = 1;
+    } else {
+      if (parcel.address in mergedparcels) {
+        mergedparcels[parcel.address] += 1;
+      } else mergedparcels[parcel.address] = 1;
+    }
+  }
+  return mergedparcels;
+};
+
 const goalOrientedRobot = ({ place, parcels }, route) => {
   if (route.length == 0) {
-    //all directions cover then select top undelivered parcel
     let parcel = parcels[0];
     if (parcel.place != place) {
-      // means need to pick this parcel
       route = findRoute(graph, place, parcel.place);
     } else {
       route = findRoute(graph, place, parcel.address);
-      // parcel pickedup needed to deliver
     }
   }
   return { direction: route[0], memory: route.slice(1) };
@@ -131,28 +144,53 @@ function routeRobot(state, memory) {
   return { direction: memory[0], memory: memory.slice(1) };
 }
 
+let placemerge = {};
+let addressmerge = {};
+
+const MyRobot = ({ place, parcels }, route) => {
+  if (route.length == 0) {
+    let freq = 0;
+    let newplace = null;
+    for (let item in placemerge) {
+      if (placemerge[item] > freq) {
+        freq = placemerge[item];
+        newplace = item;
+      }
+    }
+    // console.log(newplace, "New");
+    delete placemerge[newplace];
+    if (newplace != place && newplace) {
+      route = findRoute(graph, place, newplace);
+    } else route = findRoute(graph, place, parcels[0].address);
+  }
+  return { direction: route[0], memory: route.slice(1) };
+};
+
 const CountSteps = (state, robot, memory) => {
   for (let steps = 0; ; steps++) {
     if (state.parcels.length == 0) return steps;
-    // parcel reach 0 return steps;
     let action = robot(state, memory);
     state = state.move(action.direction);
     memory = action.memory;
-    // CountSteps(state, robot, memory);
   }
 };
 
 const MeasureRobots = (robot1, memory1, robot2, memory2) => {
   let res1 = 0;
   let res2 = 0;
+
   for (let i = 0; i < 100; i++) {
     let state = generateParcels(5);
-    // 100 -> tasks
+    placemerge = mergeparcels(true, state);
+    addressmerge = mergeparcels(false, state);
     res1 += CountSteps(state, robot1, memory1);
     res2 += CountSteps(state, robot2, memory2);
   }
-  console.log(`Routerobot  moves ${res1} steps`);
-  console.log(`GoalOrientedrobot moves ${res2} steps`);
+  console.log(
+    `MyRobot  moves ${
+      ((res1 - res2) / res2) * 100
+    } Efficent than goalOrientedRobot`
+  );
 };
 
-MeasureRobots(routeRobot, [], goalOrientedRobot, []);
+MeasureRobots(MyRobot, [], goalOrientedRobot, []);
