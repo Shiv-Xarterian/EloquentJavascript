@@ -115,3 +115,117 @@ console.log(dateTime.test("30-jan-2003 15:20"));
 
 
 \d matches digit between 0-9;
+
+\p is used in regular expressions to match characters based on their Unicode properties.
+Standard regular expressions like \w (which matches word characters) are limited to English letters, digits, and the underscore.
+\p is more flexible and can match characters from many languages.
+
+\p{L}: Matches any letter from any language.
+\p{N}: Matches any numeric character.
+\p{P}: Matches any punctuation character.
+\P{L}: Matches any non-letter character (uppercase P inverts the property).
+\p{Script=Hangul}: Matches any character from the Hangul script (used for Korean).
+
+
+To indicate that a pattern should occur a precise number of times, use braces. 
+-> Putting {4} after an element, for example, requires it to occur exactly four times. 
+
+->Grouping subexpressions
+To use an operator like * or + on more than one element at a time, you must use parentheses.
+        let cartoonCrying = /boo+(hoo+)+/i;
+        console.log(cartoonCrying.test("Boohoooohoohooo"));
+        // → true
+
+Matches and groups
+    -> Regular expressions also have an exec (execute) method that will return null if no match was found and return an object with information about the match otherwise.
+    let match = /\d+/.exec("one two 100");
+    console.log(match);
+    // → ["100"]
+    console.log(match.index);
+    // → 8
+
+-> An object returned from exec has an index property that tells us where in the string the successful match begins. 
+
+String values have a match method that behaves similarly.
+
+
+SUMMARY->
+
+console.log("one two 100".match(/\d+/));
+// → ["100"]
+
+/abc/ - A sequence of characters
+
+
+console.log(/abc/.test("abcde")); // true
+/[abc]/ - Any character from a set of characters
+
+
+console.log(/[abc]/.test("apple")); // true (matches 'a')
+/[^abc]/ - Any character not in a set of characters
+
+
+console.log(/[^abc]/.test("def")); // true (matches 'd')
+/[0-9]/ - Any character in a range of characters
+
+
+console.log(/[0-9]/.test("hello2world")); // true (matches '2')
+/x+/ - One or more occurrences of the pattern x
+
+
+console.log(/x+/.test("xx")); // true
+/x+?/ - One or more occurrences, non-greedy
+
+
+console.log(/x+?/.exec("xxxx")); // ["x"]
+/x*/ - Zero or more occurrences
+
+
+console.log(/x*/.test("")); // true
+/x?/ - Zero or one occurrence
+
+
+console.log(/x?/.test("x")); // true
+/x{2,4}/ - Two to four occurrences
+
+
+console.log(/x{2,4}/.test("xxx")); // true
+/(abc)/ - A group
+
+
+console.log(/(abc)/.test("abcabc")); // true
+/a|b|c/ - Any one of several patterns
+
+
+console.log(/a|b|c/.test("b")); // true
+/\d/ - Any digit character
+
+
+console.log(/\d/.test("3")); // true
+/\w/ - An alphanumeric character (“word character”)
+
+
+console.log(/\w/.test("word")); // true
+/\s/ - Any whitespace character
+
+
+console.log(/\s/.test(" ")); // true
+/./ - Any character except newlines
+
+
+console.log(/./.test("a")); // true
+/\p{L}/u - Any letter character
+
+
+console.log(/\p{L}/u.test("é")); // true
+/^/ - Start of input
+
+
+console.log(/^a/.test("abc")); // true
+/$/ - End of input
+
+
+console.log(/c$/.test("abc")); // true
+/(?=a)/ - A look-ahead test
+
+console.log(/.b(?=c)/.test("abc")); // true
