@@ -1,0 +1,56 @@
+<h1>Mountains</h1>
+
+<div id="mountains"></div>
+
+<script>
+  const MOUNTAINS = [
+    { name: "Kilimanjaro", height: 5895, place: "Tanzania" },
+    { name: "Everest", height: 8848, place: "Nepal" },
+    { name: "Mount Fuji", height: 3776, place: "Japan" },
+    { name: "Vaalserberg", height: 323, place: "Netherlands" },
+    { name: "Denali", height: 6168, place: "United States" },
+    { name: "Popocatepetl", height: 5465, place: "Mexico" },
+    { name: "Mont Blanc", height: 4808, place: "Italy/France" },
+  ];
+
+  const Mountain = document.getElementById("mountains");
+  const Table = document.createElement("table");
+  const Thead = document.createElement("tr");
+  const Th_One = document.createElement("th");
+  const Th_Two = document.createElement("th");
+  const Th_Three = document.createElement("th");
+
+  Th_One.innerHTML = `Name`;
+  Th_Two.innerHTML = `Height`;
+  Th_Three.innerHTML = `Place`;
+
+  Thead.appendChild(Th_One);
+  Thead.appendChild(Th_Two);
+  Thead.appendChild(Th_Three);
+  Table.appendChild(Thead);
+
+  for (const item of MOUNTAINS) {
+    const Thead = document.createElement("tr");
+    const Th_One = document.createElement("td");
+    const Th_Two = document.createElement("td");
+    const Th_Three = document.createElement("td");
+
+    Th_One.innerHTML = `${item.name}`;
+    Th_Two.innerHTML = `${item.height}`;
+    Th_Three.innerHTML = `${item.place}`;
+
+    Thead.appendChild(Th_One);
+    Thead.appendChild(Th_Two);
+    Thead.appendChild(Th_Three);
+    Table.appendChild(Thead);
+  }
+  Mountain.appendChild(Table);
+
+  const cells = Table.querySelectorAll("td");
+  cells.forEach((cell) => {
+    // Check if the cell's content is a number
+    if (!isNaN(cell.textContent.trim())) {
+      cell.style.textAlign = "right"; // Right-align the cell
+    }
+  });
+</script>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <div>
+        <p>Hello</p>
+      </div>
+    </div>
+    <script>
+      function talksAbout(node, string) {
+        if (node.nodeType == Node.ELEMENT_NODE) {
+          for (let child of node.childNodes) {
+            if (talksAbout(child, string)) {
+              return true;
+            }
+          }
+          return false;
+        } else if (node.nodeType == Node.TEXT_NODE) {
+          console.log(node, node.nodeValue.indexOf(string));
+          return node.nodeValue.indexOf(string) > -1;
+        }
+      }
+
+      console.log(talksAbout(document.body, "book"));
+    </script>
+  </body>
+</html>
