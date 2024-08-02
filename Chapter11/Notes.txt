@@ -1,0 +1,108 @@
+In a synchronous programming model, things happen one at a time.
+When you call a function that performs a long-running action, it returns only when the action has finished and it can return the result.
+This stops your program for the time the action takes.
+
+An asynchronous model allows multiple things to happen at the same time.
+When you start an action, your program continues to run. 
+When the action finishes, the program is informed and gets access to the result (for example, the data read from disk).
+
+
+A thread is another running program whose execution may be interleaved with other programs by the operating system—
+
+asynchronous Tasks take a callback function , so when task completes , then this callback return the result
+
+setTimeout(() => console.log("Tick"), 500); -> TO execute after some couple of times
+
+1. A way to execute asynchronous actins-> by Callbacks
+
+like let say A -> B -> C -> D order we want but also does not want that to be execute synchronously;
+
+function(Execute A,function(ExecuteB,function(executeC,function(executeD){}){}){}){};
+
+function compareFiles(fileA, fileB, callback) {
+  readTextFile(fileA, contentA => {
+    -> read file A first, when done
+    readTextFile(fileB, contentB => {
+        -> read file B adn then 
+      callback(contentA == contentB);
+      -> check both files are same
+    });
+  });
+}
+
+
+Promises-> A promise is a receipt representing a value that may not be available yet.
+It provides a then method that allows you to register a function that should be called when the action for which it is waiting finishes. 
+
+let fifteen = Promise.resolve(15); -> Create a promise if not already then execute it immediately
+fifteen.then(value => console.log(`Got ${value}`));
+// → Got 15
+
+
+// function textFile(filename) {
+//   return new Promise((resolve) => {
+//     readTextFile(filename, (text) => resolve(text));
+    // -> after read calls the callback and then resolve the promise -> result -> text
+//   });
+// }
+
+// textFile("./Notes.txt").then(console.log);
+
+
+Catching Error in Callbacks are Hard
+
+in Promise - > Very Easy
+    Promise.catch(err=>console.log(err)) -> Catch when a promise get rejected......
+
+function textFile(filename) {
+  return new Promise((resolve, reject) => {
+    readTextFile(filename, (text, error) => {
+      if (error) reject(error);
+      else resolve(text);
+    });
+  });
+}
+
+
+
+
+Understanding Generators in JavaScript
+Generators in JavaScript are a special type of function that can be paused and resumed, allowing you to produce a sequence of values over time. Here, I'll explain the example provided and how generators work in general.
+
+Generator Function Definition
+javascript
+Copy code
+function* powers(n) {
+  for (let current = n;; current *= n) {
+    yield current;
+  }
+}
+Function Declaration: The function* syntax defines a generator function named powers.
+Infinite Loop: The for loop has no condition to terminate, making it an infinite loop.
+Yield Expression: The yield expression pauses the generator and returns the current value of current.
+Using the Generator
+javascript
+Copy code
+for (let power of powers(3)) {
+  if (power > 50) break;
+  console.log(power);
+}
+
+
+Group.prototype[Symbol.iterator] = function*() {
+  for (let i = 0; i < this.members.length; i++) {
+    yield this.members[i];
+  }
+};
+
+
+async function fileSizes(files) {
+  let list = "";
+  await Promise.all(files.map(async fileName => {
+    list += fileName + ": " +
+      (await textFile(fileName)).length + "\n";
+  }));
+  return list;
+}
+
+async bugs
