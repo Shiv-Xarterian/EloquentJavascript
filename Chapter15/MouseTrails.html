@@ -1,0 +1,29 @@
+<style>
+  .trail {
+    position: absolute;
+    height: 6px;
+    width: 6px;
+    border-radius: 3px;
+    background: green;
+  }
+  body {
+    height: 300px;
+  }
+</style>
+
+<script>
+  let MouseTrails = [];
+  for (let i = 0; i < 5; i++) {
+    const Item = document.createElement("div");
+    document.body.appendChild(Item);
+    MouseTrails.push(Item);
+  }
+  window.addEventListener("mousemove", (event) => {
+    for (let i = 0; i < 5; i++) {
+      const Item = MouseTrails[i];
+      Item.className = "trail";
+      Item.style.left = event.pageX - 4 + 10 * i + "px";
+      Item.style.top = event.pageY - 4 + i * 2 + "px";
+    }
+  });
+</script>

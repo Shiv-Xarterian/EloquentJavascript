@@ -1,0 +1,26 @@
+<p>🎈</p>
+
+<script>
+  const balloon = document.getElementsByTagName("p")[0];
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowUp") {
+      event.preventDefault();
+      let size = balloon.style.fontSize;
+      if (!size) {
+        balloon.style.fontSize = "20px";
+        size = balloon.style.fontSize;
+      }
+      balloon.style.fontSize = `${parseFloat(size) + 10}px`;
+    } else if (event.key === "ArrowDown") {
+      event.preventDefault();
+      let size = balloon.style.fontSize;
+      if (!size) {
+        balloon.style.fontSize = "20px";
+        size = balloon.style.fontSize;
+      }
+      if (parseFloat(size) > 20) {
+        balloon.style.fontSize = `${parseFloat(size) - 10}px`;
+      }
+    }
+  });
+</script>
