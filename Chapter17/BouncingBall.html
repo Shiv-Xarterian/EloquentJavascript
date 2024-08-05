@@ -1,0 +1,43 @@
+<canvas width="400" height="400"></canvas>
+<script>
+  let cx = document.querySelector("canvas").getContext("2d");
+
+  let lastTime = null;
+  function frame(time) {
+    if (lastTime != null) {
+      updateAnimation(Math.min(100, time - lastTime) / 1000);
+    }
+    lastTime = time;
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  const ball = {
+    x: Math.random() * 200 + 20,
+    y: Math.random() * 200 + 20,
+    radius: 20,
+    dx: 2,
+    dy: 2,
+    color: "red",
+  };
+
+  function updateAnimation(step) {
+    cx.clearRect(0, 0, 400, 400);
+    cx.strokeRect(0, 0, 400, 400);
+    cx.beginPath();
+    cx.arc(ball.x, ball.y, ball.radius, 0, 2 * Math.PI);
+    cx.fillStyle = ball.color;
+    cx.fill();
+    cx.stroke();
+
+    ball.x += ball.dx;
+    ball.y += ball.dy;
+
+    if (ball.x + ball.radius > 400 || ball.x - ball.radius < 0) {
+      ball.dx *= -1;
+    }
+    if (ball.y + ball.radius > 400 || ball.y - ball.radius < 0) {
+      ball.dy *= -1;
+    }
+  }
+</script>

@@ -1,0 +1,102 @@
+<canvas width="600" height="200"></canvas>
+<!-- Trapezium -->
+<script>
+  let cx = document.querySelector("canvas").getContext("2d");
+  cx.beginPath();
+  cx.moveTo(30, 10);
+  cx.lineTo(80, 10);
+  cx.lineTo(100, 50);
+  cx.lineTo(10, 50);
+  cx.lineTo(30, 10);
+  cx.stroke();
+</script>
+
+<!-- Diamond -->
+<canvas width="600" height="200"></canvas>
+<script>
+  let cx = document.querySelector("canvas").getContext("2d");
+  cx.rotate(0.8);
+  cx.fillStyle = "Red";
+  cx.fillRect(30, -30, 50, 50);
+</script>
+<canvas width="600" height="200"></canvas>
+<script>
+  let cx = document.querySelector("canvas").getContext("2d");
+  cx.beginPath();
+  cx.moveTo(30, 10);
+  cx.lineTo(50, 30);
+  cx.lineTo(30, 50);
+  cx.lineTo(10, 30);
+  cx.lineTo(30, 10);
+  cx.fillStyle = "red";
+  cx.fill();
+</script>
+
+<!-- Spring -->
+<canvas width="600" height="200"></canvas>
+<script>
+  let cx = document.querySelector("canvas").getContext("2d");
+  cx.moveTo(10, 10);
+  let x = 10;
+  let y = 10;
+  for (let i = 0; i < 10; i++) {
+    if (i % 2 == 0) {
+      cx.lineTo(x + 50, y + 5);
+      x = x + 50;
+      y = y + 5;
+    } else {
+      cx.lineTo(x - 50, y + 5);
+      x = x - 50;
+      y = y + 5;
+    }
+  }
+  cx.stroke();
+</script>
+
+<!-- SPiral -->
+<canvas width="600" height="200"></canvas>
+<script>
+  let cx = document.querySelector("canvas").getContext("2d");
+  cx.beginPath();
+
+  let centerX = 300;
+  let centerY = 100;
+  let radius = 1;
+  let angle = 0;
+  let angleIncrement = 0.2;
+  let radiusIncrement = 0.5;
+
+  for (let i = 0; i < 100; i++) {
+    let x = centerX + radius * Math.cos(angle);
+    let y = centerY + radius * Math.sin(angle);
+    if (i === 0) {
+      cx.moveTo(x, y);
+    } else {
+      cx.lineTo(x, y);
+    }
+    angle += angleIncrement;
+    radius += radiusIncrement;
+  }
+
+  cx.stroke();
+</script>
+
+<!-- Star -->
+<canvas width="600" height="200"></canvas>
+<script>
+  let cx = document.querySelector("canvas").getContext("2d");
+  cx.beginPath();
+  let dx = [0, 35, 50, 35, 0, -35, -50, -35, 0];
+  let dy = [50, 35, 0, -35, -50, -35, 0, 35, 50];
+  cx.moveTo(100, 100);
+  let x = 100;
+  let y = 100;
+  for (let i = 0; i < 9; i++) {
+    let nx = x + dx[i];
+    let ny = y + dy[i];
+    cx.quadraticCurveTo(x, y, nx, ny);
+  }
+  cx.closePath();
+  cx.fillStyle = "orange";
+  cx.fill();
+</script>
