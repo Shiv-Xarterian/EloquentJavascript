@@ -1,0 +1,76 @@
+<div id="grid"></div>
+<button id="next">Next generation</button>
+
+<script>
+  let arr = [0, 1];
+  let n = 5;
+
+  let gridArr = [];
+
+  const Grid = document.getElementById("grid");
+
+  for (let i = 0; i < n; i++) {
+    const Row = document.createElement("div");
+    const row = [];
+    Row.style.display = "flex";
+    for (let j = 0; j < n; j++) {
+      const E = document.createElement("div");
+      E.style.padding = "10px";
+      E.style.border = "1px solid black";
+      const val = arr[parseInt(Math.random() * 2)];
+      E.innerHTML = `${val}`;
+      row.push(val);
+      Row.appendChild(E);
+    }
+    Grid.appendChild(Row);
+    gridArr.push(row);
+  }
+
+  const dx = [-1, -1, 0, 1, 1, 1, 0, -1];
+  const dy = [0, 1, 1, 1, 0, -1, -1, -1];
+
+  const HandleGeneration = () => {
+    let newArr = Array.from({ length: n }, () => Array(n).fill(0));
+    for (let i = 0; i < n; i++) {
+      for (let j = 0; j < n; j++) {
+        let live = 0;
+        let dead = 0;
+        for (let k = 0; k < 8; k++) {
+          const nx = i + dx[k];
+          const ny = j + dy[k];
+          if (nx >= 0 && ny >= 0 && nx < n && ny < n) {
+            if (gridArr[nx][ny]) live++;
+            else dead++;
+          }
+        }
+
+        if (gridArr[i][j] == 1) {
+          if (live < 2 || live > 3) newArr[i][j] = 1;
+        } else {
+          if (live == 3) newArr[i][j] = 1;
+        }
+      }
+    }
+
+    Grid.innerHTML = ``;
+    for (let i = 0; i < n; i++) {
+      const Row = document.createElement("div");
+      const row = [];
+      Row.style.display = "flex";
+      for (let j = 0; j < n; j++) {
+        const E = document.createElement("div");
+        E.style.padding = "10px";
+        E.style.border = "1px solid black";
+        const val = newArr[i][j] ? 1 - gridArr[i][j] : gridArr[i][j];
+        E.innerHTML = `${val}`;
+        row.push(val);
+        Row.appendChild(E);
+      }
+      Grid.appendChild(Row);
+      gridArr[i] = row;
+    }
+  };
+  const Button = document
+    .getElementById("next")
+    .addEventListener("click", HandleGeneration);
+</script>

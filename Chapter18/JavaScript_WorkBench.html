@@ -1,0 +1,19 @@
+<textarea id="code">return "hi";</textarea>
+<button id="button">Run</button>
+<pre id="output"></pre>
+
+<script>
+ const txtarea = document.getElementById("code");
+  const buton = document.getElementById("button");
+  const out = document.getElementById("output");
+
+  button.addEventListener("click",()=>{
+    try{
+      const res = Function(txtarea.value);
+      out.innerText = String(res);
+    }
+    catch(e){
+      out.innerText = `Error: ` + e
+    }
+  })
+</script>
